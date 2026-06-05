@@ -15,7 +15,10 @@ import {
   Mail,
   Calendar,
   Shield,
-  Loader2
+  Loader2,
+  X,
+  User,
+  Lock
 } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import EmptyState from '../../components/EmptyState';

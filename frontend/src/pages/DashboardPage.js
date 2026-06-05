@@ -10,7 +10,8 @@ import {
   RefreshCw,
   Grid3X3,
   List,
-  MoreVertical
+  MoreVertical,
+  Settings
 } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ServiceCard from '../components/ServiceCard';

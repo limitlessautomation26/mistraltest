@@ -16,7 +16,9 @@ import {
   Image as ImageIcon,
   Palette,
   Type,
-  Loader2
+  Loader2,
+  X,
+  Users
 } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import EmptyState from '../../components/EmptyState';
