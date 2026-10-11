@@ -1,0 +1,84 @@
+BRIEF SOURCE (commentaire du fichier HTML autonome du site vitrine VoiceCore)
+==============================================================================
+BRIEF POUR L'IA DE MOTION DESIGN — VOICECORE
+Ce fichier est une copie autonome du site vitrine VoiceCore : HTML, CSS,
+JavaScript et fontes Satoshi intégrés. Il sert de référence visuelle.
+Il ne représente pas un tableau de bord produit connecté.
+
+OBJECTIF : vidéo de présentation de 30 secondes, créer une animation des
+éléments de l'interface, pas un simple défilement du site. Respecter la
+police Satoshi, les boutons pill, les cartes à 28 px et la palette
+#2860E1, #B343F2, #0F0E15, #FFFFFF, #F3F3F7. Réutiliser le dégradé aura du CSS.
+
+STORYBOARD SOURCE :
+0–4 s : logo VoiceCore et accroche « Vous faites votre métier. Votre IA prend les appels. »
+4–11 s : zoom sur .call-card, apparition d'un appel entrant, animation de .waveform,
+puis affichage successif des deux bulles de conversation. Indiquer « Exemple de scénario ».
+11–17 s : transition vers la carte agenda .mini-calendar, mise en évidence du créneau,
+puis confirmation illustrative d'un rendez-vous. Pas de données client réelles.
+17–23 s : parcours .routing : demande client vers agenda, équipe ou CRM.
+23–27 s : trois messages courts : « Votre métier », « Vos règles », « Votre agent ».
+27–30 s : logo et CTA « Découvrez votre futur agent vocal ».
+
+DIRECTION : mouvement fluide, caméra virtuelle mesurée, masques de révélation,
+transitions par continuité des formes, composition nette, titres lisibles, fond aura.
+Recomposer chaque scène au format vidéo : ne pas comprimer toute la page en 16:9.
+
+VISIBLE TEXT (extrait du corps HTML du site vitrine — référence de copy)
+==============================================================================
+VoiceCore
+L'agent
+Comment ça marche
+Pour qui ?
+Tarifs
+Découvrir la démo
+VOTRE ACCUEIL TÉLÉPHONIQUE, RÉINVENTÉ
+Vous faites votre métier.
+Votre IA prend les appels.
+Un agent vocal qui accueille vos clients, répond à leurs questions
+et prend leurs rendez-vous. Même quand vous êtes occupé.
+Découvrir mon futur agent
+✦ Configuré pour votre métier
+✦ Connecté à vos outils
+✦ Accompagné par un humain
+Une demande bien orientée.
+Votre équipe garde la main.
+Votre agent VoiceCore
+Exemple de conversation
+APPEL ENTRANT
+LE CLIENT
+« Bonjour, je voudrais réserver une table pour deux, vendredi soir. »
+VOTRE AGENT IA
+« Avec plaisir. Vous préférez 19 h 30 ou 20 h 30 ? »
+Illustration · Restaurant
+▷ Écouter l'exemple
+De l'appel à l'action.
+Réservation, message ou rendez-vous.
+UNE VOIX. DE VRAIES ACTIONS.
+Accueil & information
+Prise de rendez-vous
+Qualification
+Transfert humain
+Des rendez-vous dans votre agenda.
+Recherche d'un créneau et prise de rendez-vous selon vos règles et les
+possibilités de votre outil.
+LUN MAR MER JEU VEN
+12 13 14 15 16
+Créneau confirmé
+Exemple · 10 h 30
+Chaque demande au bon endroit.
+Demande client
+Agenda
+Équipe
+CRM
+✦ Voix et ton personnalisés
+✦ Plages horaires configurables
+✦ Comptes rendus d'appels
+✦ Langues selon votre besoin
+Votre métier. Vos règles. Votre agent.
+Chaque appel mérite une réponse.
+VOTRE PROCHAIN APPEL MÉRITE MIEUX QU'UNE MESSAGERIE.
+Et si vous pouviez enfin laisser sonner ?
+Découvrez à quoi pourrait ressembler l'accueil de votre entreprise.
+Découvrir l'expérience VoiceCore
+© 2026 VoiceCore · Agents IA vocaux
