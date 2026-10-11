@@ -1,13 +1,28 @@
 <template>
-<div id="root" data-composition-id="04-routing">
+<div id="root" data-composition-id="04-routing" data-width="1080" data-height="1920">
   <style>
+
+    @font-face {
+      font-family: "Satoshi";
+      src: url("assets/fonts/Satoshi-500.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Satoshi";
+      src: url("assets/fonts/Satoshi-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
       overflow: hidden;
       container-type: size;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-family: Satoshi, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       --r04-bg: #FFFFFF;
       --r04-primary: #2860E1;
       --r04-text: #0F0E15;
@@ -345,7 +360,7 @@
           existing.addEventListener("load", build);
         } else {
           var s = document.createElement("script");
-          s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
+          s.src = "../../assets/vendor/gsap.min.js";
           s.setAttribute("data-r04-gsap-loader", "1");
           s.onload = build;
           document.head.appendChild(s);

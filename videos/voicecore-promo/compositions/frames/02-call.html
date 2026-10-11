@@ -1,5 +1,20 @@
 <template>
   <style>
+
+    @font-face {
+      font-family: "Satoshi";
+      src: url("assets/fonts/Satoshi-500.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Satoshi";
+      src: url("assets/fonts/Satoshi-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
     /* ===== 02-call — call-card morph-in / live waveform / two-bubble exchange / measured push ===== */
     #root {
       position: relative;
@@ -8,7 +23,7 @@
       overflow: hidden;
       container-type: size;
       background: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      font-family: Satoshi, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     }
 
     .clip {
@@ -79,13 +94,21 @@
     .call02-mini-wave span:nth-child(3) { height: 10px; }
 
     .call02-content-new {
+      top: 50%;
+      left: 50%;
+      right: auto;
+      bottom: auto;
       width: 620px;
       height: 620px;
       opacity: 0;
-      /* counter-scale: the morph tween scales .morph-card by END_SCALE (~7.0455);
+      /* Center-anchor at the parent's midpoint (inset:0 would anchor the box's
+         top-left corner, not its center, to an 88px parent — the translate
+         re-centers a 620px box on a point, then the counter-scale shrinks it
+         around that same point).
+         counter-scale: the morph tween scales .morph-card by END_SCALE (~7.0455);
          this constant inverse keeps the card's real content at natural apparent
          size once it fades in near the end of the morph (never a width/height tween) */
-      transform: scale(0.141894);
+      transform: translate(-50%, -50%) scale(0.141894);
       transform-origin: 50% 50%;
       display: flex;
       flex-direction: column;

@@ -1,11 +1,26 @@
 <template>
   <style>
+
+    @font-face {
+      font-family: "Satoshi";
+      src: url("assets/fonts/Satoshi-500.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Satoshi";
+      src: url("assets/fonts/Satoshi-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
       overflow: hidden;
-      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-family: Satoshi, "Helvetica Neue", Arial, sans-serif;
     }
 
     /* ---- background layer (full-bleed, dimmed aura) ---- */
@@ -248,7 +263,7 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="../../assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
       window.__timelines = window.__timelines || {};
