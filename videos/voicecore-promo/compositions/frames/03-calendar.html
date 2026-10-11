@@ -1,0 +1,386 @@
+<template>
+  <style>
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* ---- background layer (full-bleed, dimmed aura) ---- */
+    .cal03-bg-layer {
+      background: #ffffff;
+    }
+    .cal03-aura-overlay {
+      position: absolute;
+      inset: 0;
+      opacity: 0.15;
+      background:
+        radial-gradient(60% 55% at 18% 22%, #eed9fb 0%, rgba(238, 217, 251, 0) 70%),
+        radial-gradient(70% 65% at 30% 55%, #b29bf0 0%, rgba(178, 155, 240, 0) 70%),
+        radial-gradient(80% 80% at 70% 80%, #3e5fe2 0%, #2860e1 100%);
+    }
+
+    /* ---- the morph card (card-morph-anchor) ---- */
+    .cal03-morph-card {
+      position: absolute;
+      left: 130px;
+      top: 480px;
+      width: 820px;
+      height: 960px;
+      background: #ffffff;
+      border: 1.5px solid rgba(40, 96, 225, 0.2);
+      border-radius: 24px;
+      overflow: hidden;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    .cal03-content-old,
+    .cal03-content-new {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* abstracted call-card remnant (fades out during the morph) */
+    .cal03-old-avatar {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      background: rgba(40, 96, 225, 0.1);
+      border: 1.5px solid rgba(40, 96, 225, 0.25);
+      margin-bottom: 28px;
+    }
+    .cal03-old-line {
+      width: 220px;
+      height: 14px;
+      border-radius: 7px;
+      background: rgba(15, 14, 21, 0.08);
+    }
+    .cal03-old-line + .cal03-old-line {
+      margin-top: 12px;
+      width: 160px;
+    }
+
+    /* ---- mini-calendar grid ---- */
+    .cal03-grid {
+      width: 724px;
+      height: 520px;
+      display: grid;
+      grid-template-columns: 74px repeat(5, 1fr);
+      grid-template-rows: 56px repeat(5, 1fr);
+      gap: 6px;
+    }
+    .cal03-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transform-origin: 50% 50%;
+    }
+    .cal03-corner {
+      background: transparent;
+    }
+    .cal03-day-head {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #2860e1;
+    }
+    .cal03-hour-head {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(15, 14, 21, 0.6);
+      justify-content: flex-end;
+      padding-right: 10px;
+    }
+    .cal03-slot,
+    .cal03-slot-target {
+      background: #f3f3f7;
+      border: 1.5px solid rgba(40, 96, 225, 0.2);
+    }
+
+    /* ---- confirmation row ---- */
+    .cal03-confirm-row {
+      margin-top: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .cal03-confirm-text {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      column-gap: 10px;
+      row-gap: 6px;
+      max-width: 560px;
+    }
+    .cal03-word {
+      display: inline-block;
+      transform-origin: 50% 50%;
+      font-size: 32px;
+      font-weight: 600;
+      color: #0f0e15;
+      letter-spacing: -0.01em;
+    }
+    .cal03-dot {
+      font-weight: 400;
+      color: rgba(15, 14, 21, 0.35);
+      font-size: 26px;
+    }
+    .cal03-example {
+      font-weight: 400;
+      color: rgba(15, 14, 21, 0.6);
+    }
+    .cal03-time {
+      color: #2860e1;
+      font-weight: 700;
+      font-size: 38px;
+    }
+    .cal03-check-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #2860e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: 50% 50%;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="03-calendar"
+    data-start="0"
+    data-duration="6"
+    data-width="1080"
+    data-height="1920"
+  >
+    <div class="clip cal03-bg-layer" data-start="0" data-duration="6" data-track-index="0">
+      <div class="cal03-aura-overlay"></div>
+    </div>
+
+    <div class="clip cal03-card-layer" data-start="0" data-duration="6" data-track-index="1">
+      <div class="cal03-morph-card" id="cal03-morph-card">
+        <div class="cal03-content-old" id="cal03-content-old">
+          <div class="cal03-old-avatar"></div>
+          <div class="cal03-old-line"></div>
+          <div class="cal03-old-line"></div>
+        </div>
+
+        <div class="cal03-content-new" id="cal03-content-new">
+          <div class="cal03-grid" id="cal03-grid">
+            <div class="cal03-cell cal03-corner"></div>
+            <div class="cal03-cell cal03-day-head">LUN</div>
+            <div class="cal03-cell cal03-day-head">MAR</div>
+            <div class="cal03-cell cal03-day-head">MER</div>
+            <div class="cal03-cell cal03-day-head">JEU</div>
+            <div class="cal03-cell cal03-day-head">VEN</div>
+
+            <div class="cal03-cell cal03-hour-head">12 h</div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+
+            <div class="cal03-cell cal03-hour-head">13 h</div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+
+            <div class="cal03-cell cal03-hour-head">14 h</div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+
+            <div class="cal03-cell cal03-hour-head">15 h</div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+
+            <div class="cal03-cell cal03-hour-head">16 h</div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot"></div>
+            <div class="cal03-cell cal03-slot-target" id="cal03-slot-ven16"></div>
+          </div>
+
+          <div class="cal03-confirm-row" id="cal03-confirm-row">
+            <div class="cal03-confirm-text" id="cal03-confirm-text">
+              <span class="cal03-word" data-word="w1">Créneau</span>
+              <span class="cal03-word" data-word="w2">confirmé</span>
+              <span class="cal03-word cal03-dot" data-word="w3">·</span>
+              <span class="cal03-word cal03-example" data-word="w4">Exemple</span>
+              <span class="cal03-word cal03-dot" data-word="w5">·</span>
+              <span class="cal03-word cal03-time" data-word="w6">10&nbsp;h&nbsp;30</span>
+            </div>
+            <div class="cal03-check-circle" id="cal03-check">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none">
+                <path
+                  d="M5 13l4 4L19 7"
+                  stroke="#ffffff"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var DUR = 6;
+
+      // ---------------------------------------------------------------
+      // Scene 1 (0.0–1.4s) — card-morph-anchor: call-card -> mini-calendar
+      // ---------------------------------------------------------------
+      var MORPH_START = 0;
+      var MORPH_DUR = 0.9;
+      var START_SCALE = 1.1; // incoming call-card was slightly larger (~55% frame height)
+      var END_SCALE = 1.0; // settles into this frame's own ~50%-height card
+      var OLD_FADE_FRAC = 0.4;
+      var NEW_FADE_FRAC = 0.4;
+
+      tl.fromTo(
+        "#cal03-morph-card",
+        { scale: START_SCALE, borderRadius: "29px" },
+        { scale: END_SCALE, borderRadius: "24px", duration: MORPH_DUR, ease: "power2.inOut" },
+        MORPH_START,
+      );
+
+      tl.fromTo(
+        "#cal03-content-old",
+        { opacity: 1 },
+        { opacity: 0, duration: MORPH_DUR * OLD_FADE_FRAC, ease: "power1.in" },
+        MORPH_START,
+      );
+
+      tl.fromTo(
+        "#cal03-content-new",
+        { opacity: 0 },
+        { opacity: 1, duration: MORPH_DUR * NEW_FADE_FRAC, ease: "power1.out" },
+        MORPH_START + MORPH_DUR * (1 - NEW_FADE_FRAC),
+      );
+
+      // ---------------------------------------------------------------
+      // Scene 2 (1.4–3.2s) — asr-keyword-glow mechanics adapted to the
+      // VEN/16 slot: single linear driver, attack→sustain→decay-to-rest
+      // envelope, never looped. The envelope drives glow + scale (a panel,
+      // not a glyph, so background/box-shadow stand in for text-shadow).
+      // ---------------------------------------------------------------
+      var ATTACK_DUR = 0.2;
+      var RELEASE = 0.4;
+      var REST_LEVEL = 0.3; // breadcrumb — the pick stays visible as "live"
+      var MAX_GLOW = 22; // px
+      var MAX_SCALE_BOOST = 0.07;
+      var REST_RGB = { r: 243, g: 243, b: 247 }; // card-bg
+      var PEAK_RGB = { r: 40, g: 96, b: 225 }; // primary cobalt
+      var SLOT_TIMING = { start: 1.5, end: 1.9 };
+
+      function envelope(t, start, end) {
+        if (t < start) return 0;
+        if (t < end) return Math.min((t - start) / ATTACK_DUR, 1);
+        var releaseEnd = end + RELEASE;
+        if (t < releaseEnd) return 1 - ((t - end) / RELEASE) * (1 - REST_LEVEL);
+        return REST_LEVEL;
+      }
+      function lerpCh(a, b, f) {
+        return Math.round(a + (b - a) * f);
+      }
+
+      var slotEl = document.getElementById("cal03-slot-ven16");
+      var confirmRowEl = document.getElementById("cal03-confirm-row");
+
+      // Held-breather jitter (deliberate hold beat, Scene 3's last ~1.5s):
+      // computed from the same deterministic driver — no CSS transition,
+      // no GSAP repeat/yoyo — subtle sine offset only, gated to the hold.
+      var JITTER_START = 4.3;
+      var JITTER_AMP = 1.6; // px
+      var JITTER_HZ = 1.6;
+
+      var driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: DUR,
+          duration: DUR,
+          ease: "none",
+          onUpdate: function () {
+            if (slotEl) {
+              var env = envelope(driver.t, SLOT_TIMING.start, SLOT_TIMING.end);
+              var bg =
+                "rgb(" +
+                lerpCh(REST_RGB.r, PEAK_RGB.r, env) +
+                ", " +
+                lerpCh(REST_RGB.g, PEAK_RGB.g, env) +
+                ", " +
+                lerpCh(REST_RGB.b, PEAK_RGB.b, env) +
+                ")";
+              slotEl.style.backgroundColor = bg;
+              slotEl.style.boxShadow = "0 0 " + (MAX_GLOW * env).toFixed(1) + "px rgba(40, 96, 225, " + (0.15 + 0.55 * env).toFixed(2) + ")";
+              slotEl.style.transform = "scale(" + (1 + MAX_SCALE_BOOST * env).toFixed(3) + ")";
+            }
+            if (confirmRowEl) {
+              var jy = driver.t > JITTER_START ? Math.sin((driver.t - JITTER_START) * JITTER_HZ) * JITTER_AMP : 0;
+              confirmRowEl.style.transform = "translateY(" + jy.toFixed(2) + "px)";
+            }
+          },
+        },
+        0,
+      );
+
+      // ---------------------------------------------------------------
+      // Scene 3 (3.2–6.0s) — confirmation line, per-word spring-pop stagger,
+      // then the checkmark spring-pops beside it; held read for the last
+      // ~1.5s (subtle jitter above is the only motion during the hold).
+      // ---------------------------------------------------------------
+      var WORDS_ENTRY_AT = 3.2;
+      var STAGGER = 0.08;
+      var POP_DUR = 0.45;
+
+      gsap.utils.toArray(".cal03-word").forEach(function (el, i) {
+        tl.fromTo(
+          el,
+          { scale: 0, opacity: 0, y: 14 },
+          { scale: 1, opacity: 1, y: 0, duration: POP_DUR, ease: "power3.out" },
+          WORDS_ENTRY_AT + i * STAGGER,
+        );
+      });
+
+      tl.fromTo(
+        "#cal03-check",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+        3.75,
+      );
+
+      window.__timelines["03-calendar"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

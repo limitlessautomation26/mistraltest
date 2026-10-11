@@ -56,7 +56,7 @@ Scene 4 (5.2–7.0s): agent-IA bubble reveals right, same move, a beat later: «
 
 ## Frame 3 — Créneau confirmé
 
-- status: outline
+- status: animated
 - duration: 6s
 - transition_in: crossfade
 - scene: Mini-calendar 5 colonnes (LUN–VEN, 12–16), créneau VEN 16 surligné puis confirmation
