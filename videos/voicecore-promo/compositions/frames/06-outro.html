@@ -1,0 +1,200 @@
+<template>
+  <style>
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ---- Scene 1: full-bleed aura, mirrors Frame 1 at full strength ---- */
+    .outro-aura {
+      background:
+        radial-gradient(60% 55% at 18% 22%, #eed9fb 0%, rgba(238, 217, 251, 0) 70%),
+        radial-gradient(70% 65% at 30% 55%, #b29bf0 0%, rgba(178, 155, 240, 0) 70%),
+        radial-gradient(80% 80% at 70% 80%, #3e5fe2 0%, #2860e1 100%);
+    }
+
+    /* ---- wordmark lockup ---- */
+    .outro-lockup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 620px;
+    }
+
+    .outro-accent-svg {
+      width: 148px;
+      height: 10px;
+      overflow: visible;
+    }
+
+    .outro-accent-svg path {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.85);
+      stroke-width: 6;
+      stroke-linecap: round;
+    }
+
+    .outro-wordmark-wrap {
+      margin-top: 32px;
+    }
+
+    .outro-wordmark {
+      font-size: 94px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      line-height: 1.08;
+      white-space: nowrap;
+      /* initial reveal-mask state: fully masked (correct at t=0 under seek) */
+      clip-path: inset(0 100% 0 0);
+    }
+
+    /* ---- Scene 2: CTA pill, blue -> violet gradient fill ---- */
+    .outro-cta-layer {
+      display: flex;
+      justify-content: center;
+      padding-top: 900px;
+    }
+
+    .outro-cta-pill {
+      transform-origin: 50% 50%;
+      padding: 30px 56px;
+      border-radius: 100px;
+      background: linear-gradient(100deg, #2860e1 0%, #b343f2 100%);
+      box-shadow: 0 18px 54px rgba(43, 20, 90, 0.35);
+      max-width: 860px;
+      /* initial entrance state (correct at t=0 under seek) */
+      opacity: 0;
+    }
+
+    .outro-cta-label {
+      display: block;
+      font-size: 34px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      text-align: center;
+      line-height: 1.3;
+    }
+  </style>
+
+  <div id="root" data-composition-id="06-outro" data-start="0" data-duration="3" data-width="1080" data-height="1920">
+    <div
+      class="clip outro-aura"
+      data-start="0"
+      data-duration="3"
+      data-track-index="0"
+    ></div>
+
+    <div
+      class="clip outro-lockup"
+      data-start="0"
+      data-duration="3"
+      data-track-index="1"
+    >
+      <svg class="outro-accent-svg" viewBox="0 0 148 10" xmlns="http://www.w3.org/2000/svg">
+        <path id="outro-accent-path" d="M 5 5 L 143 5"></path>
+      </svg>
+      <div class="outro-wordmark-wrap">
+        <h1 class="outro-wordmark" id="outro-wordmark">VoiceCore</h1>
+      </div>
+    </div>
+
+    <div
+      class="clip outro-cta-layer"
+      data-start="1.0"
+      data-duration="2.0"
+      data-track-index="2"
+    >
+      <div class="outro-cta-pill" id="outro-cta-pill">
+        <span class="outro-cta-label">D&eacute;couvrez votre futur agent vocal</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      // --- svg-path-draw setup: measure the real path, never a guessed number ---
+      var accentPath = document.getElementById("outro-accent-path");
+      var accentLen = accentPath.getTotalLength();
+      accentPath.style.strokeDasharray = String(accentLen);
+      accentPath.style.strokeDashoffset = String(accentLen);
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines["06-outro"] = tl;
+
+      // ---- Scene 1 (0.0-1.0s): aura already full-strength from t=0.
+      // Reveal-mask wipe on the wordmark, paced by the accent-line draw
+      // (svg-path-draw mechanics: measured length, stroke-dashoffset -> 0).
+      var SEG_1_START = 0.15;
+      var SEGMENT_DRAW_DUR = 0.6;
+
+      tl.to(
+        accentPath,
+        { strokeDashoffset: 0, duration: SEGMENT_DRAW_DUR, ease: "power2.out" },
+        SEG_1_START
+      );
+
+      tl.fromTo(
+        "#outro-wordmark",
+        { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: SEGMENT_DRAW_DUR, ease: "power2.out" },
+        SEG_1_START
+      );
+
+      // ---- Scene 2 (1.0-3.0s): CTA pill spring-pops beneath the lockup
+      // (spring-pop-entrance: smooth power3.out settle, no overshoot).
+      var CTA_ENTRY_AT = 1.05;
+      var CTA_POP_DUR = 0.55;
+
+      tl.fromTo(
+        "#outro-cta-pill",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: CTA_POP_DUR, ease: "power3.out" },
+        CTA_ENTRY_AT
+      );
+
+      // Held final read (the film's true ending, no exit) — only a subtle
+      // low-amplitude jitter on the aura glow keeps it alive
+      // (sine-wave-loop, onUpdate form, low end of the amplitude range).
+      var auraEl = document.querySelector(".outro-aura");
+      var TOTAL_DURATION = 3.0;
+      var IDLE_START_TIME = CTA_ENTRY_AT + CTA_POP_DUR + 0.1; // settle + ~0.1s beat
+      var IDLE_DUR = TOTAL_DURATION - IDLE_START_TIME;
+      var CYCLES = 0.8; // period ~ IDLE_DUR / CYCLES ~= 1.7s, inside the 1.5-3s band
+      var SCALE_AMP = 0.01; // low end of 0.008-0.015 default range
+      var Y_AMP_PX = 2; // low end of 2-3px default range
+
+      var phase = { p: 0 };
+      tl.to(
+        phase,
+        {
+          p: Math.PI * 2 * CYCLES,
+          duration: IDLE_DUR,
+          ease: "none",
+          onUpdate: function () {
+            var s = Math.sin(phase.p);
+            auraEl.style.transform =
+              "translateY(" + (s * Y_AMP_PX).toFixed(3) + "px) scale(" + (1 + s * SCALE_AMP).toFixed(5) + ")";
+          },
+        },
+        IDLE_START_TIME
+      );
+
+      tl.seek(0);
+    })();
+  </script>
+</template>

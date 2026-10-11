@@ -1,0 +1,357 @@
+<template>
+<div id="root" data-composition-id="04-routing">
+  <style>
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --r04-bg: #FFFFFF;
+      --r04-primary: #2860E1;
+      --r04-text: #0F0E15;
+      --r04-text-muted: rgba(15, 14, 21, 0.6);
+      --r04-accent-light: rgba(40, 96, 225, 0.08);
+      --r04-border: rgba(40, 96, 225, 0.2);
+      --r04-card-bg: #F3F3F7;
+    }
+
+    .r04-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--r04-bg);
+    }
+
+    .r04-stage {
+      position: absolute;
+      inset: 0;
+    }
+
+    .r04-aura {
+      position: absolute;
+      left: 50%;
+      top: 300px;
+      width: 1100px;
+      height: 1100px;
+      transform: translateX(-50%);
+      background: radial-gradient(closest-side, rgba(40, 96, 225, 0.15) 0%, rgba(40, 96, 225, 0) 72%);
+      pointer-events: none;
+    }
+
+    .r04-svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      pointer-events: none;
+    }
+
+    .r04-line {
+      fill: none;
+      stroke: var(--r04-primary);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .r04-node {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--r04-card-bg);
+      border: 1.5px solid var(--r04-border);
+      border-radius: 14px;
+      box-shadow: none;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    .r04-source {
+      left: 370px;
+      top: 340px;
+      width: 340px;
+      height: 110px;
+      gap: 16px;
+    }
+
+    .r04-dest {
+      top: 1080px;
+      width: 300px;
+      height: 140px;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .r04-dest-left { left: 54px; }
+    .r04-dest-mid { left: 390px; }
+    .r04-dest-right { left: 726px; }
+
+    .r04-icon-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--r04-accent-light);
+      border: 1.5px solid var(--r04-border);
+      flex: none;
+    }
+
+    .r04-source .r04-icon-circle {
+      width: 48px;
+      height: 48px;
+    }
+
+    .r04-dest .r04-icon-circle {
+      width: 64px;
+      height: 64px;
+    }
+
+    .r04-icon-circle svg {
+      stroke: var(--r04-primary);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .r04-source .r04-icon-circle svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .r04-dest .r04-icon-circle svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .r04-source-label {
+      font-size: 38px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--r04-text);
+      white-space: nowrap;
+    }
+
+    .r04-dest-label {
+      font-size: 34px;
+      font-weight: 600;
+      color: var(--r04-text);
+      white-space: nowrap;
+    }
+
+    .r04-accent-line {
+      position: absolute;
+      left: 510px;
+      top: 1300px;
+      width: 60px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--r04-primary);
+      transform-origin: 0% 50%;
+    }
+
+    .r04-legend {
+      position: absolute;
+      left: 54px;
+      top: 1340px;
+      width: 972px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 14px;
+      column-gap: 12px;
+    }
+
+    .r04-word {
+      font-size: 44px;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--r04-text);
+      white-space: nowrap;
+    }
+  </style>
+
+  <div class="r04-bg clip" data-start="0" data-duration="6" data-track-index="0"></div>
+
+  <div class="r04-stage clip" data-start="0" data-duration="6" data-track-index="1">
+    <div class="r04-aura"></div>
+
+    <svg class="r04-svg" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+      <path id="r04-line-left" class="r04-line" d="M540,450 C540,700 240,820 204,1080" />
+      <path id="r04-line-mid" class="r04-line" d="M540,450 L540,1080" />
+      <path id="r04-line-right" class="r04-line" d="M540,450 C540,700 840,820 876,1080" />
+    </svg>
+
+    <div class="r04-node r04-source" id="r04-source">
+      <div class="r04-icon-circle">
+        <svg viewBox="0 0 24 24">
+          <path d="M21 12c0 4.4-4 8-9 8-1.1 0-2.2-.2-3.1-.5L3 21l1.6-4.2C3.6 15.4 3 13.8 3 12c0-4.4 4-8 9-8s9 3.6 9 8z" />
+        </svg>
+      </div>
+      <div class="r04-source-label">Demande client</div>
+    </div>
+
+    <div class="r04-node r04-dest r04-dest-left" id="r04-node-agenda">
+      <div class="r04-icon-circle">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="4" width="18" height="17" rx="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      </div>
+      <div class="r04-dest-label">Agenda</div>
+    </div>
+
+    <div class="r04-node r04-dest r04-dest-mid" id="r04-node-equipe">
+      <div class="r04-icon-circle">
+        <svg viewBox="0 0 24 24">
+          <circle cx="9" cy="8" r="3" />
+          <circle cx="16" cy="9" r="2.3" />
+          <path d="M3 20c0-3 3-5 6-5s6 2 6 5" />
+          <path d="M14 20c.3-2 1.8-3.4 4-3.6" />
+        </svg>
+      </div>
+      <div class="r04-dest-label">Équipe</div>
+    </div>
+
+    <div class="r04-node r04-dest r04-dest-right" id="r04-node-crm">
+      <div class="r04-icon-circle">
+        <svg viewBox="0 0 24 24">
+          <ellipse cx="12" cy="6" rx="8" ry="3" />
+          <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6" />
+          <path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+        </svg>
+      </div>
+      <div class="r04-dest-label">CRM</div>
+    </div>
+
+    <div class="r04-accent-line" id="r04-accent-line"></div>
+
+    <div class="r04-legend" id="r04-legend">
+      <span class="r04-word">Une</span>
+      <span class="r04-word">demande</span>
+      <span class="r04-word">bien</span>
+      <span class="r04-word">orientée.</span>
+      <span class="r04-word">Votre</span>
+      <span class="r04-word">équipe</span>
+      <span class="r04-word">garde</span>
+      <span class="r04-word">la</span>
+      <span class="r04-word">main.</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var rootEl = document.currentScript.closest('[data-composition-id="04-routing"]');
+      if (!rootEl) { return; }
+
+      function build() {
+        var gsap = window.gsap;
+        if (!gsap) { return; }
+
+        // Measure + arm the three branch lines for a deterministic stroke draw.
+        var lineIds = ["r04-line-left", "r04-line-mid", "r04-line-right"];
+        lineIds.forEach(function (id) {
+          var p = rootEl.querySelector("#" + id);
+          var len = p.getTotalLength();
+          p.style.strokeDasharray = len;
+          p.style.strokeDashoffset = len;
+        });
+
+        // Legend words start fully hidden (set explicitly so seeking to t=0 is correct).
+        gsap.set(rootEl.querySelectorAll(".r04-word"), { opacity: 0, y: 14 });
+        gsap.set(rootEl.querySelector("#r04-accent-line"), { scaleX: 0, opacity: 0 });
+
+        var tl = gsap.timeline({ paused: true });
+
+        // Scene 1 (0.0-1.2s): the "Demande client" node springs in, top-center.
+        tl.fromTo(
+          rootEl.querySelector("#r04-source"),
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          0.1
+        );
+
+        // Scene 2 (1.2-4.2s): three branch lines self-draw left -> right; each
+        // destination node spring-pops in as its own line completes. Staggered
+        // cascade: line1 -> node1, line2 -> node2, line3 -> node3, never together.
+        tl.to(
+          rootEl.querySelector("#r04-line-left"),
+          { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" },
+          1.2
+        );
+        tl.fromTo(
+          rootEl.querySelector("#r04-node-agenda"),
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          1.75
+        );
+
+        tl.to(
+          rootEl.querySelector("#r04-line-mid"),
+          { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" },
+          1.9
+        );
+        tl.fromTo(
+          rootEl.querySelector("#r04-node-equipe"),
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          2.45
+        );
+
+        tl.to(
+          rootEl.querySelector("#r04-line-right"),
+          { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" },
+          2.6
+        );
+        tl.fromTo(
+          rootEl.querySelector("#r04-node-crm"),
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          3.15
+        );
+
+        // Scene 3 (4.2-6.0s): legend resolves beneath the diagram, per-word stagger,
+        // held read to the frame's exit.
+        tl.to(
+          rootEl.querySelector("#r04-accent-line"),
+          { scaleX: 1, opacity: 1, duration: 0.4, ease: "power2.out" },
+          4.2
+        );
+
+        var words = rootEl.querySelectorAll(".r04-word");
+        for (var i = 0; i < words.length; i++) {
+          tl.fromTo(
+            words[i],
+            { opacity: 0, y: 14 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+            4.3 + i * 0.08
+          );
+        }
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["04-routing"] = tl;
+      }
+
+      if (window.gsap) {
+        build();
+      } else {
+        var existing = document.querySelector('script[data-r04-gsap-loader="1"]');
+        if (existing) {
+          existing.addEventListener("load", build);
+        } else {
+          var s = document.createElement("script");
+          s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
+          s.setAttribute("data-r04-gsap-loader", "1");
+          s.onload = build;
+          document.head.appendChild(s);
+        }
+      }
+    })();
+  </script>
+</div>
+</template>
