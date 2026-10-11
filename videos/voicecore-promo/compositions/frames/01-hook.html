@@ -1,0 +1,226 @@
+<template>
+  <style>
+    #root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      container-type: size;
+      container-name: fr01hook;
+    }
+
+    #root .fr01hook-row {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .fr01hook-wordmark-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      will-change: transform, opacity;
+    }
+
+    .fr01hook-wordmark-svg {
+      width: 66cqw;
+      height: 15.4cqw;
+      display: block;
+      overflow: visible;
+    }
+
+    .fr01hook-wordmark-text {
+      font-family: -apple-system, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 112px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      fill: #ffffff;
+    }
+
+    .fr01hook-tagline-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3cqw;
+    }
+
+    .fr01hook-tagline-line {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .fr01hook-word {
+      display: inline-block;
+      font-family: -apple-system, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 5cqw;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      color: #ffffff;
+      will-change: transform, opacity;
+      margin: 0 0.35cqw;
+      opacity: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="01-hook">
+    <!-- Scene 1 (0.0-1.0s): full-bleed aura ground, fades up from black, power3. -->
+    <div
+      id="fr01hook-aura-bg"
+      class="clip"
+      data-start="0"
+      data-duration="4"
+      data-track-index="0"
+      style="
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        background:
+          radial-gradient(60% 55% at 18% 22%, #eed9fb 0%, rgba(238, 217, 251, 0) 70%),
+          radial-gradient(70% 65% at 30% 55%, #b29bf0 0%, rgba(178, 155, 240, 0) 70%),
+          radial-gradient(80% 80% at 70% 80%, #3e5fe2 0%, #2860e1 100%);
+      "
+    ></div>
+
+    <!-- Scene 2 (1.0-2.4s): VoiceCore wordmark resolves via reveal-mask wipe, power3 settle. -->
+    <div
+      class="fr01hook-row clip"
+      data-start="1.0"
+      data-duration="3.0"
+      data-track-index="1"
+      style="top: 29cqh;"
+    >
+      <div class="fr01hook-wordmark-wrap" id="fr01hook-wordmark-wrap">
+        <svg
+          class="fr01hook-wordmark-svg"
+          viewBox="0 0 600 140"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <mask id="fr01hook-wordmark-mask" maskUnits="userSpaceOnUse">
+              <rect x="0" y="0" width="600" height="140" fill="black"></rect>
+              <line
+                id="fr01hook-wipe-line"
+                x1="0"
+                y1="70"
+                x2="600"
+                y2="70"
+                stroke="#ffffff"
+                stroke-width="140"
+                stroke-linecap="butt"
+              ></line>
+            </mask>
+          </defs>
+          <text
+            class="fr01hook-wordmark-text"
+            x="300"
+            y="70"
+            text-anchor="middle"
+            dominant-baseline="central"
+            mask="url(#fr01hook-wordmark-mask)"
+          >VoiceCore</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Scene 3 (2.4-4.0s): tagline, two lines, per-word staggered reveal, holds on line 2. -->
+    <div
+      class="fr01hook-row clip"
+      data-start="2.4"
+      data-duration="1.6"
+      data-track-index="2"
+      style="top: 51cqh;"
+    >
+      <div class="fr01hook-tagline-col">
+        <div class="fr01hook-tagline-line" id="fr01hook-line1">
+          <span class="fr01hook-word">Vous</span>
+          <span class="fr01hook-word">faites</span>
+          <span class="fr01hook-word">votre</span>
+          <span class="fr01hook-word">m&#233;tier.</span>
+        </div>
+        <div class="fr01hook-tagline-line" id="fr01hook-line2">
+          <span class="fr01hook-word">Votre</span>
+          <span class="fr01hook-word">IA</span>
+          <span class="fr01hook-word">prend</span>
+          <span class="fr01hook-word">les</span>
+          <span class="fr01hook-word">appels.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      // Measure the wipe line's real geometry — never guessed (svg-path-draw contract).
+      var wipeLine = document.getElementById("fr01hook-wipe-line");
+      var wipeLen = wipeLine.getTotalLength();
+      wipeLine.style.strokeDasharray = String(wipeLen);
+      wipeLine.style.strokeDashoffset = String(wipeLen);
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0-1.0s): aura fades up from black — power3, single fromTo (bloom-and-hold).
+      tl.fromTo(
+        "#fr01hook-aura-bg",
+        { opacity: 0 },
+        { opacity: 1, duration: 1.0, ease: "power3.out" },
+        0,
+      );
+
+      // Scene 2 (1.0-2.4s): mask-wipe reveal of the wordmark (stroke-dasharray/dashoffset draw).
+      tl.fromTo(
+        wipeLine,
+        { strokeDashoffset: wipeLen },
+        { strokeDashoffset: 0, duration: 0.9, ease: "power3.out" },
+        1.0,
+      );
+      // Settle pop lands with the wipe's completion — one beat, no bounce.
+      tl.fromTo(
+        "#fr01hook-wordmark-wrap",
+        { scale: 0.96 },
+        { scale: 1, duration: 0.3, ease: "power3.out" },
+        1.6,
+      );
+
+      // Scene 3 (2.4-4.0s): per-word staggered reveal, line 1 then line 2 a beat later.
+      var WORD_STAGGER = 0.06;
+      var WORD_DUR = 0.32;
+      var LINE1_START = 2.4;
+      var BEAT_GAP = 0.15;
+
+      var line1Words = document.querySelectorAll("#fr01hook-line1 .fr01hook-word");
+      line1Words.forEach(function (word, i) {
+        var start = LINE1_START + i * WORD_STAGGER;
+        tl.fromTo(
+          word,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: WORD_DUR, ease: "power3.out" },
+          start,
+        );
+      });
+      var line1End = LINE1_START + (line1Words.length - 1) * WORD_STAGGER + WORD_DUR;
+
+      var LINE2_START = line1End + BEAT_GAP;
+      var line2Words = document.querySelectorAll("#fr01hook-line2 .fr01hook-word");
+      line2Words.forEach(function (word, i) {
+        var start = LINE2_START + i * WORD_STAGGER;
+        tl.fromTo(
+          word,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: WORD_DUR, ease: "power3.out" },
+          start,
+        );
+      });
+      // Line 2 settles well before 4.0s, holding (the frame's last ~0.3s+) — harness crossfade is the exit.
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["01-hook"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>
