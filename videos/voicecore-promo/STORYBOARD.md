@@ -17,7 +17,7 @@ music: none
 
 ## Frame 1 — Vous faites votre métier
 
-- status: outline
+- status: animated
 - duration: 4s
 - transition_in: cut
 - scene: Fond aura qui monte en intensité, wordmark VoiceCore révélé par masque, accroche en deux lignes posée en dessous
@@ -26,6 +26,7 @@ music: none
 - focal: wordmark "VoiceCore" — roles: cutout (foreground, no logo file supplied)
 - asset_candidates:
 - src: compositions/frames/01-hook.html
+- voiceover: Vous faites votre métier. Votre IA prend les appels.
 
 Adapt: keep the signature logo-pop → tagline-card handoff, compressed from the blueprint's 3-beat chain to 2 beats inside 4s; scene 0 adds the aura field entrance the blueprint doesn't call for.
 
@@ -44,6 +45,7 @@ Scene 3 (2.4–4.0s): tagline lands in two lines, per-word staggered reveal (`dy
 - focal: the call-card — roles: cutout (foreground, centered, aura dimmed ~15% behind it as background)
 - asset_candidates:
 - src: compositions/frames/02-call.html
+- voiceover: Un client appelle pour réserver une table. Votre agent VoiceCore répond, tout de suite.
 
 Adapt: keep the signature "conversation thread building message-by-message to a camera push-in on confirmation" move; the trigger beat is the card's own arrival (no modal click, no agent avatar) and the "confirmation" is the agent's reply landing, not a checklist.
 
@@ -63,6 +65,7 @@ Scene 4 (5.2–7.0s): agent-IA bubble reveals right, same move, a beat later: «
 - focal: the mini-calendar card — roles: cutout (foreground, aura dimmed ~15% behind it)
 - asset_candidates:
 - src: compositions/frames/03-calendar.html
+- voiceover: Il trouve un créneau et confirme le rendez-vous, directement dans votre agenda.
 
 Adapt: keep the "control is touched, the coupled surface updates live in the same beat" signature; the "control" is the highlighted slot, the "coupled surface" is the confirmation line that appears once it's picked — no cursor/caret, the pick reads as the agent's own action.
 
@@ -72,7 +75,7 @@ Scene 3 (3.2–6.0s): confirmation resolves beneath the grid, per-word staggered
 
 ## Frame 4 — Une demande bien orientée
 
-- status: outline
+- status: animated
 - duration: 6s
 - transition_in: crossfade
 - scene: Diagramme de routage — Demande client en haut, trois branches vers Agenda / Équipe / CRM
@@ -81,6 +84,7 @@ Scene 3 (3.2–6.0s): confirmation resolves beneath the grid, per-word staggered
 - focal: the routing diagram — roles: cutout (foreground, aura dimmed ~15% behind it)
 - asset_candidates:
 - src: compositions/frames/04-routing.html
+- voiceover: Chaque demande est bien orientée. Votre équipe garde toujours la main.
 
 Adapt: keep the "N items self-assemble in a staggered cascade and hold" signature; the items are 3 destination nodes fed by self-drawing branch lines rather than tiles dropping into a grid.
 
@@ -90,7 +94,7 @@ Scene 3 (4.2–6.0s): legend resolves beneath the diagram, per-word staggered re
 
 ## Frame 5 — Votre métier. Vos règles. Votre agent.
 
-- status: outline
+- status: animated
 - duration: 4s
 - transition_in: crossfade
 - scene: Triptyque kinetic typography plein écran, un mot-clé à la fois sur fond aura plus saturé
@@ -99,6 +103,7 @@ Scene 3 (4.2–6.0s): legend resolves beneath the diagram, per-word staggered re
 - focal: the three-word relay itself — roles: cutout (foreground, full-bleed aura-saturated background)
 - asset_candidates:
 - src: compositions/frames/05-triptych.html
+- voiceover: Votre métier. Vos règles. Votre agent.
 
 Reproduce: the "centered beat triptych" slot maps cleanly onto the three phrases; each beat keeps its own pill chip (the secondary/violet accent is allowed here per Video direction).
 
@@ -108,7 +113,7 @@ Scene 3 (2.6–2.8s): same handoff into « Votre agent. », held to the frame's 
 
 ## Frame 6 — Découvrez votre futur agent vocal
 
-- status: outline
+- status: animated
 - duration: 3s
 - transition_in: crossfade
 - scene: Wordmark VoiceCore reformé (symétrie avec le frame 1), bouton CTA pill dégradé bleu→violet
@@ -117,6 +122,7 @@ Scene 3 (2.6–2.8s): same handoff into « Votre agent. », held to the frame's 
 - focal: the wordmark + CTA lockup — roles: cutout (foreground), aura (full-bleed background, mirrors Frame 1)
 - asset_candidates:
 - src: compositions/frames/06-outro.html
+- voiceover: Découvrez votre futur agent vocal, VoiceCore.
 
 Reproduce: the "logo build → centered CTA" closing lockup maps directly — mirrors Frame 1's reveal mask for a deliberate bookend.
 

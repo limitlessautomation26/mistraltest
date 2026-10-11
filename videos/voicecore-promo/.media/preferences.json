@@ -42,6 +42,13 @@
         "voicecore-promo"
       ],
       "updated_at": "2026-10-11T12:44:13.871Z"
+    },
+    "voice": {
+      "value": "9f0935a47689459480b820ed3f6d782d",
+      "confirmed_in": [
+        "voicecore-promo"
+      ],
+      "updated_at": "2026-10-11T12:57:37.011Z"
     }
   },
   "sightings": {}

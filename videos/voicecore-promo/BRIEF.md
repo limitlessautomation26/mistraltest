@@ -27,8 +27,8 @@ corporate. Format vertical pour TikTok / Reels / Shorts.
 - Caméra virtuelle mesurée (dérive d'échelle 5–8 % par plan, jamais de pan brusque).
 - Continuité des formes entre les plans (morph / FLIP), jamais de cut sec.
 - Masques de révélation (clip-path) pour le texte et le logo, pas de simple fondu.
-- Pas de voix off — typographie cinétique uniquement, pacée sur une musique si pertinent.
 - Aucune donnée client réelle dans l'appel, le calendrier ou le routage.
+- **Changement confirmé en cours de run** : voix off ajoutée via Fish Audio — voix « Voix Mâle Dynamique » (id `9f0935a47689459480b820ed3f6d782d`, tags male/advertisement/energetic/dynamic/confident), script verrouillé dans `SCRIPT.md` (VO_MODE: restructured — réécrit à partir du copy on-screen, pas verbatim). La typographie cinétique reste à l'écran (texte + voix, pas l'un ou l'autre) ; les reveals par plan doivent maintenant se caler sur la voix (modèle VO-paced), pas sur un rythme interne.
 
 ## Notes
 
