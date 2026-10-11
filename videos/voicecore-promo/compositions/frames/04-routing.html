@@ -258,10 +258,11 @@
       <span class="r04-word">main.</span>
     </div>
   </div>
+</div>
 
-  <script>
+<script>
     (function () {
-      var rootEl = document.currentScript.closest('[data-composition-id="04-routing"]');
+      var rootEl = document.querySelector('[data-composition-id="04-routing"]');
       if (!rootEl) { return; }
 
       function build() {
@@ -350,23 +351,17 @@
 
         window.__timelines = window.__timelines || {};
         window.__timelines["04-routing"] = tl;
+        tl.seek(0);
       }
 
-      if (window.gsap) {
-        build();
-      } else {
-        var existing = document.querySelector('script[data-r04-gsap-loader="1"]');
-        if (existing) {
-          existing.addEventListener("load", build);
-        } else {
-          var s = document.createElement("script");
-          s.src = "../../assets/vendor/gsap.min.js";
-          s.setAttribute("data-r04-gsap-loader", "1");
-          s.onload = build;
-          document.head.appendChild(s);
-        }
-      }
+      // GSAP is loaded synchronously by index.html before any sub-composition
+      // mounts (same as every other frame in this project) — build directly,
+      // no conditional/async loader. The previous dynamic-script fallback
+      // raced the render harness's timeline-readiness check and caused
+      // window.__timelines["04-routing"] to register too late (observed as
+      // a sub_timeline_readiness_timeout at render time: the composition
+      // rendered frozen on its end state instead of animating).
+      build();
     })();
   </script>
-</div>
 </template>
