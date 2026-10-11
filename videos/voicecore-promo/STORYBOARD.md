@@ -57,7 +57,7 @@ Scene 4 (5.2–7.0s): agent-IA bubble reveals right, same move, a beat later: «
 ## Frame 3 — Créneau confirmé
 
 - status: animated
-- duration: 6s
+- duration: 5.6s
 - transition_in: crossfade
 - scene: Mini-calendar 5 colonnes (LUN–VEN, 12–16), créneau VEN 16 surligné puis confirmation
 - type: feature_showcase
@@ -76,7 +76,7 @@ Scene 3 (3.2–6.0s): confirmation resolves beneath the grid, per-word staggered
 ## Frame 4 — Une demande bien orientée
 
 - status: animated
-- duration: 6s
+- duration: 5.7s
 - transition_in: crossfade
 - scene: Diagramme de routage — Demande client en haut, trois branches vers Agenda / Équipe / CRM
 - type: benefit_highlight
@@ -95,7 +95,7 @@ Scene 3 (4.2–6.0s): legend resolves beneath the diagram, per-word staggered re
 ## Frame 5 — Votre métier. Vos règles. Votre agent.
 
 - status: animated
-- duration: 4s
+- duration: 3.5s
 - transition_in: crossfade
 - scene: Triptyque kinetic typography plein écran, un mot-clé à la fois sur fond aura plus saturé
 - type: benefit_highlight
@@ -114,7 +114,7 @@ Scene 3 (2.6–2.8s): same handoff into « Votre agent. », held to the frame's 
 ## Frame 6 — Découvrez votre futur agent vocal
 
 - status: animated
-- duration: 3s
+- duration: 4.2s
 - transition_in: crossfade
 - scene: Wordmark VoiceCore reformé (symétrie avec le frame 1), bouton CTA pill dégradé bleu→violet
 - type: cta

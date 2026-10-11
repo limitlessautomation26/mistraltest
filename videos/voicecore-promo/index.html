@@ -64,6 +64,14 @@
         data-duration="4.5"
         data-track-index="0"
       ></div>
+      <audio
+        id="el-01-hook-voice"
+        src="assets/voice/01.wav"
+        data-start="0"
+        data-duration="4"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
 
       <div
         id="el-02-call"
@@ -74,6 +82,14 @@
         data-duration="7.5"
         data-track-index="1"
       ></div>
+      <audio
+        id="el-02-call-voice"
+        src="assets/voice/02.wav"
+        data-start="4"
+        data-duration="7"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
 
       <div
         id="el-03-calendar"
@@ -81,39 +97,81 @@
         data-composition-id="03-calendar"
         data-composition-src="compositions/frames/03-calendar.html"
         data-start="11"
-        data-duration="6.5"
+        data-duration="6.1"
         data-track-index="0"
       ></div>
+      <audio
+        id="el-03-calendar-voice"
+        src="assets/voice/03.wav"
+        data-start="11"
+        data-duration="5.6"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
 
       <div
         id="el-04-routing"
         class="scene"
         data-composition-id="04-routing"
         data-composition-src="compositions/frames/04-routing.html"
-        data-start="17"
-        data-duration="6.5"
+        data-start="16.6"
+        data-duration="6.2"
         data-track-index="1"
       ></div>
+      <audio
+        id="el-04-routing-voice"
+        src="assets/voice/04.wav"
+        data-start="16.6"
+        data-duration="5.7"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
 
       <div
         id="el-05-triptych"
         class="scene"
         data-composition-id="05-triptych"
         data-composition-src="compositions/frames/05-triptych.html"
-        data-start="23"
-        data-duration="4.5"
+        data-start="22.3"
+        data-duration="4"
         data-track-index="0"
       ></div>
+      <audio
+        id="el-05-triptych-voice"
+        src="assets/voice/05.wav"
+        data-start="22.3"
+        data-duration="3.5"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
 
       <div
         id="el-06-outro"
         class="scene"
         data-composition-id="06-outro"
         data-composition-src="compositions/frames/06-outro.html"
-        data-start="27"
-        data-duration="3"
+        data-start="25.8"
+        data-duration="4.2"
         data-track-index="1"
       ></div>
+      <audio
+        id="el-06-outro-voice"
+        src="assets/voice/06.wav"
+        data-start="25.8"
+        data-duration="4.2"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- BGM -->
+      <audio
+        id="el-bgm"
+        src="assets/audio/bgm.mp3"
+        data-start="0"
+        data-duration="30"
+        data-track-index="11"
+        data-volume="0.2"
+      ></audio>
 
     </div>
 
@@ -126,12 +184,12 @@
         tl.fromTo("#el-02-call", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 4);
         tl.to("#el-02-call", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 11);
         tl.fromTo("#el-03-calendar", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 11);
-        tl.to("#el-03-calendar", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 17);
-        tl.fromTo("#el-04-routing", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 17);
-        tl.to("#el-04-routing", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 23);
-        tl.fromTo("#el-05-triptych", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 23);
-        tl.to("#el-05-triptych", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 27);
-        tl.fromTo("#el-06-outro", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 27);
+        tl.to("#el-03-calendar", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 16.6);
+        tl.fromTo("#el-04-routing", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 16.6);
+        tl.to("#el-04-routing", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 22.3);
+        tl.fromTo("#el-05-triptych", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 22.3);
+        tl.to("#el-05-triptych", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 25.8);
+        tl.fromTo("#el-06-outro", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 25.8);
         tl.to({}, { duration: 30 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
       })();
     </script>
