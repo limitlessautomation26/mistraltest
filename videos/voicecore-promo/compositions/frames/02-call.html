@@ -1,0 +1,377 @@
+<template>
+  <style>
+    /* ===== 02-call — call-card morph-in / live waveform / two-bubble exchange / measured push ===== */
+    #root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      container-type: size;
+      background: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .clip {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    /* ---- background: dimmed aura (sibling of camera, never inside it) ---- */
+    .call02-scene {
+      position: absolute;
+      inset: 0;
+      overflow: hidden; /* required: camera phase scale can dip below 1 */
+    }
+    .call02-aura-bg {
+      background:
+        radial-gradient(60% 55% at 18% 22%, #eed9fb 0%, rgba(238, 217, 251, 0) 70%),
+        radial-gradient(70% 65% at 30% 55%, #b29bf0 0%, rgba(178, 155, 240, 0) 70%),
+        radial-gradient(80% 80% at 70% 80%, #3e5fe2 0%, #2860e1 100%);
+      filter: brightness(0.85); /* aura dimmed ~15% behind the white card */
+    }
+
+    /* ---- camera wrapper (wraps the card only — never the background) ---- */
+    .call02-camera {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    /* ---- the call card itself ---- */
+    .call02-morph-card {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      border-radius: 44px;
+      background: #2860e1;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      box-shadow: none;
+      will-change: transform;
+    }
+
+    .call02-content-old,
+    .call02-content-new {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+    }
+    .call02-mini-wave {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .call02-mini-wave span {
+      display: inline-block;
+      width: 3px;
+      border-radius: 2px;
+      background: #ffffff;
+    }
+    .call02-mini-wave span:nth-child(1) { height: 10px; }
+    .call02-mini-wave span:nth-child(2) { height: 18px; }
+    .call02-mini-wave span:nth-child(3) { height: 10px; }
+
+    .call02-content-new {
+      width: 620px;
+      height: 620px;
+      opacity: 0;
+      /* counter-scale: the morph tween scales .morph-card by END_SCALE (~7.0455);
+         this constant inverse keeps the card's real content at natural apparent
+         size once it fades in near the end of the morph (never a width/height tween) */
+      transform: scale(0.141894);
+      transform-origin: 50% 50%;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 56px 48px;
+      gap: 24px;
+    }
+
+    .call02-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 0 0 auto;
+    }
+    .call02-eyebrow {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #2860e1;
+    }
+    .call02-tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: #2860e1;
+      background: rgba(40, 96, 225, 0.08);
+      border-radius: 100px;
+      padding: 6px 14px;
+      white-space: nowrap;
+    }
+
+    .call02-wave-wrap {
+      flex: 0 0 124px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+    }
+    .call02-wave-svg {
+      width: 100%;
+      max-width: 280px;
+      height: 80px;
+    }
+
+    .call02-bubbles {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      flex: 1 1 auto;
+    }
+    .call02-bubble-row {
+      display: flex;
+      width: 100%;
+    }
+    .call02-bubble-row.is-client { justify-content: flex-start; }
+    .call02-bubble-row.is-agent { justify-content: flex-end; }
+
+    .call02-bubble {
+      max-width: 420px;
+      padding: 16px 20px;
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: #0f0e15;
+      opacity: 0;
+    }
+    .call02-bubble.is-client {
+      background: #f3f3f7;
+      border-radius: 20px 20px 20px 6px;
+    }
+    .call02-bubble.is-agent {
+      background: rgba(40, 96, 225, 0.08);
+      border: 1.5px solid rgba(40, 96, 225, 0.2);
+      border-radius: 20px 20px 6px 20px;
+    }
+    .call02-word {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="02-call"
+    data-start="0"
+    data-duration="7"
+    data-width="1080"
+    data-height="1920"
+  >
+    <div class="call02-scene">
+      <div class="call02-aura-bg clip" data-start="0" data-duration="7" data-track-index="0"></div>
+
+      <div class="call02-camera" id="call02-camera">
+        <div class="clip" data-start="0" data-duration="7" data-track-index="1">
+          <div class="call02-morph-card" id="call02-morph-card">
+            <div class="call02-content-old" id="call02-content-old">
+              <div class="call02-mini-wave">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <div class="call02-content-new" id="call02-content-new">
+              <div class="call02-header">
+                <div class="call02-eyebrow">Appel entrant</div>
+                <div class="call02-tag">Exemple de scénario</div>
+              </div>
+
+              <div class="call02-wave-wrap" id="call02-wave-wrap">
+                <svg class="call02-wave-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                  <rect id="call02-bar-0" x="23" y="22" width="10" height="16" rx="5" fill="#2860e1" />
+                  <rect id="call02-bar-1" x="47" y="16" width="10" height="28" rx="5" fill="#2860e1" />
+                  <rect id="call02-bar-2" x="71" y="10" width="10" height="40" rx="5" fill="#2860e1" />
+                  <rect id="call02-bar-3" x="95" y="4" width="10" height="52" rx="5" fill="#2860e1" />
+                  <rect id="call02-bar-4" x="119" y="10" width="10" height="40" rx="5" fill="#2860e1" />
+                  <rect id="call02-bar-5" x="143" y="16" width="10" height="28" rx="5" fill="#2860e1" />
+                  <rect id="call02-bar-6" x="167" y="22" width="10" height="16" rx="5" fill="#2860e1" />
+                </svg>
+              </div>
+
+              <div class="call02-bubbles">
+                <div class="call02-bubble-row is-client">
+                  <div class="call02-bubble is-client" id="call02-bubble-client">
+                    <span class="call02-word">Bonjour,</span> <span class="call02-word">je</span> <span class="call02-word">voudrais</span> <span class="call02-word">réserver</span> <span class="call02-word">une</span> <span class="call02-word">table</span> <span class="call02-word">pour</span> <span class="call02-word">deux,</span> <span class="call02-word">vendredi</span> <span class="call02-word">soir.</span>
+                  </div>
+                </div>
+                <div class="call02-bubble-row is-agent">
+                  <div class="call02-bubble is-agent" id="call02-bubble-agent">
+                    <span class="call02-word">Avec</span> <span class="call02-word">plaisir.</span> <span class="call02-word">Vous</span> <span class="call02-word">préférez</span> <span class="call02-word">19</span> <span class="call02-word">h</span> <span class="call02-word">30</span> <span class="call02-word">ou</span> <span class="call02-word">20</span> <span class="call02-word">h</span> <span class="call02-word">30</span> <span class="call02-word">?</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="02-call"]');
+      var camera = root.querySelector("#call02-camera");
+      var morphCard = root.querySelector("#call02-morph-card");
+
+      var TOTAL_DURATION = 7;
+      var END_SCALE = 7.0455; // 620 / 88 — uniform apparent-size substitution
+      var SHOT_ONE_RADIUS = 44; // px, pre-scale (full circle on the 88px mark)
+      var SHOT_TWO_RADIUS_APPARENT = 28; // storyboard-specified call-card radius
+      var PRESCALE_RADIUS = SHOT_TWO_RADIUS_APPARENT / END_SCALE;
+
+      var tl = gsap.timeline({ paused: true });
+
+      // ---------------- Scene 1 (0.0–1.3s): card-morph-anchor ----------------
+      var MORPH_START = 0.05;
+      var MORPH_DUR = 0.95;
+
+      tl.set(morphCard, { transformOrigin: "50% 50%" }, 0);
+
+      tl.fromTo(
+        morphCard,
+        { scale: 1, borderRadius: SHOT_ONE_RADIUS + "px", backgroundColor: "#2860e1" },
+        {
+          scale: END_SCALE,
+          borderRadius: PRESCALE_RADIUS + "px",
+          backgroundColor: "#ffffff",
+          duration: MORPH_DUR,
+          ease: "power3.inOut",
+        },
+        MORPH_START,
+      );
+
+      tl.fromTo(
+        "#call02-content-old",
+        { opacity: 1 },
+        { opacity: 0, duration: MORPH_DUR * 0.4, ease: "power2.in" },
+        MORPH_START,
+      );
+
+      tl.fromTo(
+        "#call02-content-new",
+        { opacity: 0 },
+        { opacity: 1, duration: MORPH_DUR * 0.45, ease: "power2.out" },
+        MORPH_START + MORPH_DUR * 0.55,
+      );
+
+      // ---------------- Scene 2 (1.3–3.0s): waveform + camera push begins ----------------
+      var WAVE_START = 1.3;
+
+      tl.fromTo(
+        "#call02-wave-wrap",
+        { opacity: 0, y: 10, scale: 0.92 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" },
+        WAVE_START,
+      );
+
+      // svg-icon-enrichment — live internal waveform motion, ONE finite tween, no repeat/yoyo
+      var bars = [0, 1, 2, 3, 4, 5, 6].map(function (i) {
+        return {
+          el: root.querySelector("#call02-bar-" + i),
+          cx: 23 + i * 24 + 5,
+          amp: 0.28,
+          phase: i * 0.85,
+        };
+      });
+      var HOLD_START = WAVE_START;
+      var HOLD_DUR = TOTAL_DURATION - HOLD_START;
+      var PULSE_CYCLES = 5;
+      var pulse = { p: 0 };
+      tl.to(
+        pulse,
+        {
+          p: Math.PI * 2 * PULSE_CYCLES,
+          duration: HOLD_DUR,
+          ease: "none",
+          onUpdate: function () {
+            for (var i = 0; i < bars.length; i++) {
+              var b = bars[i];
+              var s = 1 + b.amp * Math.sin(pulse.p + b.phase);
+              b.el.setAttribute(
+                "transform",
+                "translate(" + b.cx + " 30) scale(1 " + s + ") translate(" + -b.cx + " -30)",
+              );
+            }
+          },
+        },
+        HOLD_START,
+      );
+
+      // multi-phase-camera — one writer composes phase scale + continuous drift
+      var phase = { scale: 1 };
+      tl.to(phase, { scale: 1.06, duration: 2.2, ease: "power2.out" }, 1.3);
+      tl.to(phase, { scale: 1.08, duration: 1.0, ease: "power3.out" }, 5.2);
+
+      var DRIFT_AMP_X = 4;
+      var DRIFT_AMP_Y = 2.5;
+      var DRIFT_FREQ_RATIO = 1.3;
+      var DRIFT_CYCLES = 2;
+      var drift = { p: 0 };
+      tl.to(
+        drift,
+        {
+          p: Math.PI * 2 * DRIFT_CYCLES,
+          duration: TOTAL_DURATION,
+          ease: "none",
+          onUpdate: function () {
+            var dx = Math.sin(drift.p) * DRIFT_AMP_X;
+            var dy = Math.sin(drift.p * DRIFT_FREQ_RATIO) * DRIFT_AMP_Y;
+            camera.style.transform = "scale(" + phase.scale + ") translate(" + dx + "px, " + dy + "px)";
+          },
+        },
+        0,
+      );
+
+      // ---------------- Scene 3 (3.0–5.2s): client bubble, per-word stagger ----------------
+      var BUBBLE1_START = 3.0;
+      tl.fromTo(
+        "#call02-bubble-client",
+        { opacity: 0, y: 14, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power3.out" },
+        BUBBLE1_START,
+      );
+      tl.fromTo(
+        "#call02-bubble-client .call02-word",
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.28, ease: "power3.out", stagger: 0.045 },
+        BUBBLE1_START + 0.18,
+      );
+
+      // ---------------- Scene 4 (5.2–7.0s): agent-IA bubble, camera settles ----------------
+      var BUBBLE2_START = 5.2;
+      tl.fromTo(
+        "#call02-bubble-agent",
+        { opacity: 0, y: 14, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power3.out" },
+        BUBBLE2_START,
+      );
+      tl.fromTo(
+        "#call02-bubble-agent .call02-word",
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.28, ease: "power3.out", stagger: 0.045 },
+        BUBBLE2_START + 0.18,
+      );
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["02-call"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

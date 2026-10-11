@@ -36,7 +36,7 @@ Scene 3 (2.4–4.0s): tagline lands in two lines, per-word staggered reveal (`dy
 
 ## Frame 2 — Exemple de scénario
 
-- status: outline
+- status: animated
 - duration: 7s
 - transition_in: crossfade
 - scene: Call-card blanche 28px, label APPEL ENTRANT, waveform animée, deux bulles de conversation qui arrivent l'une après l'autre
