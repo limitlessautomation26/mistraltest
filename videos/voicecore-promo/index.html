@@ -61,8 +61,8 @@
         data-composition-id="01-hook"
         data-composition-src="compositions/frames/01-hook.html"
         data-start="0"
-        data-duration="4"
-        data-track-index="1"
+        data-duration="4.5"
+        data-track-index="0"
       ></div>
 
       <div
@@ -71,7 +71,7 @@
         data-composition-id="02-call"
         data-composition-src="compositions/frames/02-call.html"
         data-start="4"
-        data-duration="7"
+        data-duration="7.5"
         data-track-index="1"
       ></div>
 
@@ -81,8 +81,8 @@
         data-composition-id="03-calendar"
         data-composition-src="compositions/frames/03-calendar.html"
         data-start="11"
-        data-duration="6"
-        data-track-index="1"
+        data-duration="6.5"
+        data-track-index="0"
       ></div>
 
       <div
@@ -91,7 +91,7 @@
         data-composition-id="04-routing"
         data-composition-src="compositions/frames/04-routing.html"
         data-start="17"
-        data-duration="6"
+        data-duration="6.5"
         data-track-index="1"
       ></div>
 
@@ -101,8 +101,8 @@
         data-composition-id="05-triptych"
         data-composition-src="compositions/frames/05-triptych.html"
         data-start="23"
-        data-duration="4"
-        data-track-index="1"
+        data-duration="4.5"
+        data-track-index="0"
       ></div>
 
       <div
@@ -120,6 +120,20 @@
     <script>
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-hook", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 4);
+        tl.fromTo("#el-02-call", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 4);
+        tl.to("#el-02-call", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 11);
+        tl.fromTo("#el-03-calendar", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 11);
+        tl.to("#el-03-calendar", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 17);
+        tl.fromTo("#el-04-routing", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 17);
+        tl.to("#el-04-routing", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 23);
+        tl.fromTo("#el-05-triptych", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 23);
+        tl.to("#el-05-triptych", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 27);
+        tl.fromTo("#el-06-outro", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 27);
+        tl.to({}, { duration: 30 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
     </script>
   </body>
 </html>
